@@ -1,41 +1,49 @@
-# Programming Lab: Cities Data Processing (OOP Lab)
+# Lab 3: OOP Data Processing with DB and Table Classes
 
-## 🔹 Overview
-This project processes city data from a CSV file (`Cities.csv`) in three stages:
+## Lab Overview
+This lab focuses on building a simple database system using Object-Oriented Programming (OOP) in Python.  
+The goal is to handle multiple CSV tables, perform filtering, aggregation, and join operations, simulating basic database functionalities.  
+Students will learn how to design classes, manage data, and implement table operations programmatically.
 
-1. **Commit 1 – Procedural**  
-   - Read CSV, calculate average temperature, filter cities, count unique countries  
-   - Code is repetitive and not reusable
+## Project Structure
+oop_lab_3/
+├── Cities.csv # Dataset containing city information
+├── Countries.csv # Dataset containing country information
+├── data_processing.py # Main implementation of DB, Table, and DataLoader classes
+├── test_lab3.py # Test script to run queries and validate results
+└── README.md # This file
 
-2. **Commit 2 – Procedural + Lambda**  
-   - Introduced helper functions: `filter()` and `aggregate()`  
-   - Used `lambda` for filtering and aggregation  
-   - Code is cleaner, readable, and reusable
+## Design Overview
 
-3. **Commit 3 – OOP**  
-   - Organized into `DataLoader` and `Table` classes  
-   - `filter()` and `aggregate()` are methods in `Table`  
-   - Output is identical to Commit 2, code is modular and maintainable
+### Class: `DataLoader`
+- **Purpose**: Load CSV data into Python as a list of dictionaries.
+- **Attributes**:
+  - `base_path` – Path to folder containing CSV files.
+- **Methods**:
+  - `load_csv(filename)` – Reads a CSV file and returns a list of dictionaries.
 
----
+### Class: `Table`
+- **Purpose**: Represent a table and provide operations like filtering, aggregation, and joining.
+- **Attributes**:
+  - `table_name` – Name of the table.
+  - `table` – List of dictionaries representing rows.
+- **Methods**:
+  - `filter(condition)` – Returns a new Table containing only rows that satisfy the condition. The new table name appends `_filtered`.
+  - `aggregate(func, key)` – Applies a function `func` to the values of the specified column `key`.
+  - `join(other_table, key)` – Performs an inner join with another table based on the given key.
+  - `__str__()` – Returns a string representation of the table in the format `table_name: [rows]`.
 
-##  Key Features
-- Display first 5 cities  
-- Average temperature of all cities  
-- Cities in Germany  
-- Cities in Spain with temperature > 12°C  
-- Number of unique countries  
-- Average temperature of cities in Germany  
-- Maximum temperature of cities in Italy  
+### Class: `DB`
+- **Purpose**: Manage multiple tables as a simple database.
+- **Attributes**:
+  - `tables` – Dictionary storing tables by their `table_name`.
+- **Methods**:
+  - `insert(table)` – Adds a Table object to the database.
+  - `search(table_name)` – Retrieves a Table by its name.
 
-**Note:** The outputs are the same for all commits
+## How to Test and Run Your Code
 
----
-
-##  Lambda Functions
-- Anonymous functions used for short, inline operations  
-- Useful for filtering or aggregating data  
-- Example:
-```python
-filter(lambda x: x['country']=='Germany', cities)
-aggregate('temperature', lambda x: sum(x)/len(x), cities)
+1. Make sure `Cities.csv` and `Countries.csv` are in the same directory as `data_processing.py`.
+2. Run the main script to perform queries:
+   ```bash
+   python data_processing.py
